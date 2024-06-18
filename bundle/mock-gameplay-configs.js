@@ -1,0 +1,1 @@
+const e=[{id:"staging-testing",type:"Gameplay",info:{version:"1.0.0",priority:2,createdAt:"2023-10-08"},config:{MaxLevel:100,WaitForPassSecs:2}},{id:"prod-fb",type:"Gameplay",info:{version:"1.1.0",priority:1,createdAt:"2023-10-07"},config:{MaxLevel:325,WaitForPassSecs:5}}];export{e as default};
