@@ -1,4 +1,5 @@
-(function () {var __defProp = Object.defineProperty;
+(function () {"use strict";
+var __defProp = Object.defineProperty;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
@@ -1363,7 +1364,7 @@ var _GameSDK = class _GameSDK {
   }
   async startGameAsync() {
     await this.extra.delayStartAsync();
-    const initedPercent = 95;
+    const initedPercent = 90;
     window.__sdkLoadingCount = initedPercent;
     this.setLoadingProgress(initedPercent);
     this.extra.destroyLoadingElement();
@@ -1935,7 +1936,7 @@ var blockAccess = /* @__PURE__ */ __name((source) => {
   }
 }, "blockAccess");
 var wrapGetterToBlockObjectAccess = /* @__PURE__ */ __name((source, key) => {
-  if (true)
+  if ("true")
     return;
   if (false)
     return;
@@ -1991,11 +1992,12 @@ __name(autoDetectAndInitializeSDKAdapter, "autoDetectAndInitializeSDKAdapter");
 console.groupCollapsed(`\u{1F579}\uFE0F GameSDK`);
 window.GameSDK = Object.seal(autoDetectAndInitializeSDKAdapter());
 security_default(window, "GameSDK");
-})();(function () {var __defProp = Object.defineProperty;
+})();(function () {"use strict";
+var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "5", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
@@ -2018,7 +2020,7 @@ var initGameSDK = /* @__PURE__ */ __name(async () => {
   await GameSDK.initializeAsync();
   window.__sdkLoadingCount = 1;
   GameSDK.setLoadingProgress(window.__sdkLoadingCount);
-  if (true) {
+  if ("true") {
     stepProgressLoading();
   } else {
     autoProgressLoading();
@@ -2028,14 +2030,16 @@ var initGameSDK = /* @__PURE__ */ __name(async () => {
   console.info("GameSDK initialized");
   window.__sdkInitiated = true;
 }, "initGameSDK");
+var userProperties = {};
 var processGoogleAnalytics = /* @__PURE__ */ __name(() => {
   if (!initConfig)
     return;
-  const { TAGS_TO_CONFIG = [] } = initConfig || {};
+  const { TAGS_TO_CONFIG = [], BUILD_VERSION } = initConfig || {};
   const userId = GameSDK.player.getID();
-  initGoogleAnalytics(TAGS_TO_CONFIG, userId);
+  initGoogleAnalytics(TAGS_TO_CONFIG, BUILD_VERSION, userId);
+  updateUserPropertiesWhenPlayerInfoLoaded(userId);
 }, "processGoogleAnalytics");
-var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, userId) => {
+var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, buildVer, userId) => {
   if (!window.gtag)
     return;
   try {
@@ -2043,15 +2047,15 @@ var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, userId) => {
     let entryPoint = "no_entry";
     const { fbig_ad_id, fbig_adset_id, fbig_campaign_id } = GameSDK.getEntryPointData() || {};
     const configs = {
+      build_version: buildVer,
       campaign: fbig_campaign_id,
       campaign_medium: fbig_campaign_id
     };
-    const userProperties = {
-      user_id: userId,
-      ad_id: fbig_ad_id,
-      adset_id: fbig_adset_id,
-      campaign_id: fbig_campaign_id
-    };
+    userProperties.user_id = userId;
+    userProperties.app_version = buildVer;
+    userProperties.ad_id = fbig_ad_id;
+    userProperties.adset_id = fbig_adset_id;
+    userProperties.campaign_id = fbig_campaign_id;
     GameSDK.getEntryPointAsync().then((entry) => {
       entryPoint = entry;
     }).catch((error) => {
@@ -2085,5 +2089,12 @@ var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, userId) => {
     window.gtag("event", "app_launch");
   }
 }, "initGoogleAnalytics");
+var updateUserPropertiesWhenPlayerInfoLoaded = /* @__PURE__ */ __name((userId) => {
+  if (!userId || window.game?.player)
+    return;
+  const isNewUser = window.game.player.isFirstLogin();
+  userProperties.new_user = isNewUser;
+  window.gtag("set", "user_properties", userProperties);
+}, "updateUserPropertiesWhenPlayerInfoLoaded");
 initGameSDK();
 })();

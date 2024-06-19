@@ -40,8 +40,8 @@ System.register(['./application.js'], function (_export, _context) {
 
                             console.warn('Cocos application init')
 
-                            if (window.__sdkLoadingCount < 40) {
-                                window.__sdkLoadingCount = 40
+                            if (window.__sdkLoadingCount < 30) {
+                                window.__sdkLoadingCount = 30
                             }
 
                             resolve(application.init(engine))
@@ -55,8 +55,8 @@ System.register(['./application.js'], function (_export, _context) {
                     perf.mark('run-start')
 
                     console.warn('Cocos application start')
-                    if (window.__sdkLoadingCount < 50) {
-                        window.__sdkLoadingCount = 50
+                    if (window.__sdkLoadingCount < 40) {
+                        window.__sdkLoadingCount = 40
                     }
 
                     const { Analytics } = GameCore.Plugins
@@ -68,8 +68,8 @@ System.register(['./application.js'], function (_export, _context) {
                 })
                 .then(function () {
                     console.warn('Cocos application started')
-                    if (window.__sdkLoadingCount < 60) {
-                        window.__sdkLoadingCount = 60
+                    if (window.__sdkLoadingCount < 50) {
+                        window.__sdkLoadingCount = 50
                     }
 
                     perf.mark('run-end')
@@ -80,7 +80,9 @@ System.register(['./application.js'], function (_export, _context) {
                     Console.removeVConsole()
                 })
                 ['catch'](function (err) {
-                    console.error(err)
+                    if (!window.game) {
+                        throw err
+                    }
 
                     const { monitorError } = window.game
                     if (!monitorError) return

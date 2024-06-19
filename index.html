@@ -35,6 +35,14 @@
 
         <link rel="preconnect" href="https://fbig-singleplay-apps-dev.sunstudio.io" />
 
+        <link rel="preload" href="./game-sdk.js" as="script" importance="high" />
+<link rel="prefetch" href="./assets/start-scene/index.js" as="script" importance="high" />
+<link rel="prefetch" href="./track-errors.js" as="script" importance="low" />
+<link rel="prefetch" href="./assets/start-scene/config.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/start-scene/import/08/085274f5e.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/internal/config.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/internal/import/0a/0a93f2575.json" as="fetch" importance="auto" />
+
         <script>
             var perf = window.performance || {
                 mark: function () {},
@@ -44,29 +52,10 @@
             perf.mark('load-start')
         </script>
 
-        <!-- Game Distribution -->
-        
-
-        <!-- Glance -->
-        
-
-        <!-- Game SDK -->
-        
-    <link rel="preload" href="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.13.min.js" as="script" importance="high">
-    <script src="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.13.min.js" importance="high"></script>
-
-        <link rel="preload" href="./game-sdk.js" as="script" importance="high" crossorigin />
-<link rel="preload" href="./index.js" as="script" importance="high" crossorigin />
-<link rel="preload" href="./application.js" as="script" importance="high" crossorigin />
-<link rel="modulepreload" href="./GameCore.js" as="script" importance="high" crossorigin />
-<link rel="preload" href="./application.js" as="script" importance="high" crossorigin />
-<link rel="prefetch" href="./src/import-map.json" as="fetch" importance="auto" crossorigin />
-<link rel="prefetch" href="./assets/start-scene/index.js" as="script" importance="auto" crossorigin />
-<link rel="prefetch" href="./assets/internal/config.json" as="fetch" importance="auto" crossorigin />
-<link rel="prefetch" href="./assets/internal/import/0c/0c1f1a6b8.json" as="fetch" importance="auto" crossorigin />
-
         <!-- Polyfill runtime -->
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es5&flags=gated" importance="high"></script>
+
+        <script src="./track-errors.js" importance="high"></script>
 
         <!-- Google Analytic base -->
         
@@ -75,40 +64,59 @@
     function gtag() {
         window.dataLayer.push(arguments)
     }
+    
     gtag('js', new Date())
-    gtag('set', 'build_version', '4')
+    gtag('set', 'app_version', '5')
+
     var tagIds = 'null'.split(' ')
     if (tagIds.length > 0) {
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
-            gtag('config', tagId)
+            gtag('config', tagId, {
+                build_version: '5',
+                send_page_view: false
+            })
         })
     }
 </script>
+
+        <!-- Game Distribution -->
+        
+
+        <!-- Glance -->
+        
+
+        <!-- Game SDK -->
+        <script src="https://assets.msn.com/staticsb/statics/latest/msstart-games-sdk/msstart-v1.0.0-rc.13.min.js" importance="high"></script>
 
         <script src="./game-sdk.js" importance="high"></script>
 
         <!--  -->
         
-      <script type="module" crossorigin src="./GameCore.js"></script>
-      <link rel="modulepreload" crossorigin href="./bundle/core.js">
-      <link rel="modulepreload" crossorigin href="./bundle/__commonjsHelpers__.js">
-      <link rel="stylesheet" crossorigin href="./assets/style-pxLVHnng.css">
+    <script src="src/polyfills.bundle.js" charset="utf-8"></script>
+    <!-- SystemJS support. -->
+    <script src="src/system.bundle.js" charset="utf-8"></script>
+
+    <!-- Import map -->
+    <script src="src/import-map.json" type="systemjs-importmap" charset="utf-8"></script>
+
+    <script>
+        System.import('./GameCore.js').catch(function (err) {})
+        System.import('./index.js').catch(function (err) {})
+        System.import('./cocos-js/cc.js').catch(function (err) {})
+    </script>
+
+        <!--  -->
+        
+      
     </head>
 
     <body>
-        <link rel="stylesheet" href="style.css" importance="low">
-
         <!-- Google Analytics -->
         
 
         <!-- Google Tag Manager -->
         
-
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Madimi One&display=swap" importance="low">
 
         <!-- Google Tag Manager -->
         
@@ -124,24 +132,11 @@
       <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="99"></canvas>
     </div>
   </div>
-        <!--  -->
-        
 
-<!-- Polyfills bundle. -->
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Madimi One&display=swap" importance="low">
 
-<script src="src/polyfills.bundle.js" charset="utf-8"> </script>
-
-
-<!-- SystemJS support. -->
-<script src="src/system.bundle.js" charset="utf-8"> </script>
-
-<!-- Import map -->
-<script src="src/import-map.json" type="systemjs-importmap" charset="utf-8"> </script>
-
-<script>
-    System.import('./index.js').catch(function(err) { console.error(err); })
-</script>
-
+        <link rel="stylesheet" href="style.css" importance="low">
         <!--  -->
         <div style="font-family:'Madimi One';position:absolute;left:-100px;top:-100px">.</div>
     </body>
