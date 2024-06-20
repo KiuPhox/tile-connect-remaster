@@ -10,10 +10,7 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __publicField = (obj, key, value) => {
-  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 
 // <define:__GAME_SDK_CONFIG__>
 var define_GAME_SDK_CONFIG_default;
@@ -104,8 +101,7 @@ var _Context = class _Context {
       { length: 10 },
       () => GameCore.Utils.Number.random(10).toString()
     );
-    if (!contextId || !contextType)
-      return;
+    if (!contextId || !contextType) return;
     if (!["SOLO", "THREAD", "POST", "GROUP"].includes(contextType)) {
       console.warn(`Invalid context type: ${contextType}`);
       return;
@@ -120,27 +116,21 @@ var _Context = class _Context {
     return this.currentContextType;
   }
   async loadSwitchAsyncPopup() {
-    if (this.switchAsyncPopup)
-      return;
+    if (this.switchAsyncPopup) return;
     const SwitchAsyncPopup = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof SwitchAsyncPopup !== "function")
-      return;
+    if (typeof SwitchAsyncPopup !== "function") return;
     this.switchAsyncPopup = new SwitchAsyncPopup();
   }
   async loadChooseAsyncPopup() {
-    if (this.chooseAsyncPopup)
-      return;
+    if (this.chooseAsyncPopup) return;
     const ChooseAsyncPopup = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof ChooseAsyncPopup !== "function")
-      return;
+    if (typeof ChooseAsyncPopup !== "function") return;
     this.chooseAsyncPopup = new ChooseAsyncPopup();
   }
   async loadCreateAsyncPopup() {
-    if (this.createAsyncPopup)
-      return;
+    if (this.createAsyncPopup) return;
     const CreateAsyncPopup = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof CreateAsyncPopup !== "function")
-      return;
+    if (typeof CreateAsyncPopup !== "function") return;
     this.createAsyncPopup = new CreateAsyncPopup();
   }
   async switchAsync(contextId, switchSilentlyIfSolo = false) {
@@ -234,9 +224,9 @@ var _Context = class _Context {
   }
   createPlayerInfo(playerId) {
     return {
-      getID: () => playerId,
-      getName: () => `Player ${playerId}`,
-      getPhoto: () => ""
+      getID: /* @__PURE__ */ __name(() => playerId, "getID"),
+      getName: /* @__PURE__ */ __name(() => `Player ${playerId}`, "getName"),
+      getPhoto: /* @__PURE__ */ __name(() => "", "getPhoto")
     };
   }
   updatePlayers(players) {
@@ -268,15 +258,13 @@ var _Context = class _Context {
     const providedIdInConnectedPlayers = connectedPlayers.some(
       (connectedPlayer) => connectedPlayer.getID() === playerId
     );
-    if (providedIdInConnectedPlayers)
-      return;
+    if (providedIdInConnectedPlayers) return;
     const message = `Provided ID ${playerId} is not a connected player of the current player.`;
     this.extra.exceptionInvalidParam(message);
   }
   validateSwitchAsyncContextId(contextId) {
     this.checkSameContext(contextId);
-    if (GameCore.Utils.Valid.isString(contextId))
-      return;
+    if (GameCore.Utils.Valid.isString(contextId)) return;
     const message = "Client requires update to support this operation" /* REQUIRE_UPDATE */;
     this.extra.exceptionClientUnsupportedOperation(message);
   }
@@ -361,8 +349,7 @@ var _LoadingScreenElement = class _LoadingScreenElement {
       this.addLoadingElementStyle();
       const observer = new MutationObserver(() => {
         const gameDiv = document.getElementById("GameDiv");
-        if (!gameDiv)
-          return;
+        if (!gameDiv) return;
         this.setupLoadingElementSizeAndPosition();
       });
       const config = {
@@ -389,11 +376,9 @@ var _LoadingScreenElement = class _LoadingScreenElement {
   }
   setupLoadingElementSizeAndPosition() {
     const loadingElement = document.getElementById(loadingId);
-    if (!loadingElement)
-      return;
+    if (!loadingElement) return;
     const gameDiv = document.getElementById("GameDiv");
-    if (!gameDiv)
-      return;
+    if (!gameDiv) return;
     const { width, height } = gameDiv.getBoundingClientRect();
     loadingElement.style.width = `${width}px`;
     loadingElement.style.height = `${height}px`;
@@ -402,25 +387,20 @@ var _LoadingScreenElement = class _LoadingScreenElement {
     loadingElement.style.top = `${(cHeight - height) / 2}px`;
   }
   setLoadingProgress(percentage) {
-    if (percentage === this.percentage)
-      return;
-    if (this.percentage > percentage)
-      return;
+    if (percentage === this.percentage) return;
+    if (this.percentage > percentage) return;
     this.percentage = percentage;
     const loadingPercent = document.getElementById("lds-percent");
-    if (!loadingPercent)
-      return;
+    if (!loadingPercent) return;
     loadingPercent.innerHTML = `${percentage}`;
     const loadingElement = document.getElementById(loadingId);
-    if (!loadingElement)
-      return;
+    if (!loadingElement) return;
     const opacity = Math.min(0.9, 0.1 + percentage / 100);
     loadingElement.style.backgroundColor = `rgba(81, 81, 81, ${opacity})`;
   }
   removeLoadingElement() {
     const loadingElement = document.getElementById(loadingId);
-    if (!loadingElement)
-      return;
+    if (!loadingElement) return;
     loadingElement.style.backgroundColor = `rgba(81, 81, 81, 0)`;
     setTimeout(() => {
       loadingElement.remove();
@@ -456,8 +436,7 @@ var _Extra = class _Extra {
   }
   async subscribeBotAsync() {
     const canSubscribeBot = await this.adapter.player.canSubscribeBotAsync();
-    if (!canSubscribeBot)
-      return false;
+    if (!canSubscribeBot) return false;
     const { analytics } = window.game;
     const { BOT_SUBSCRIBE, BOT_SUBSCRIBE_POPUP } = GameCore.Plugins.Analytics.Events;
     analytics.event(BOT_SUBSCRIBE_POPUP);
@@ -473,8 +452,7 @@ var _Extra = class _Extra {
   }
   async checkAndCreateShortcutAsync() {
     const canCreateShortcut = await this.adapter.canCreateShortcutAsync();
-    if (!canCreateShortcut)
-      return;
+    if (!canCreateShortcut) return;
     const { analytics } = window.game;
     const { SHORTCUT_CREATE, SHORTCUT_CREATE_POPUP } = GameCore.Plugins.Analytics.Events;
     analytics.event(SHORTCUT_CREATE_POPUP);
@@ -507,41 +485,34 @@ var _Extra = class _Extra {
     });
   }
   createLoadingElement() {
-    if (this.loadingElement)
-      return;
+    if (this.loadingElement) return;
     this.loadingElement = new LoadingScreenElement_default();
   }
   setLoadingElementProgress(progress) {
-    if (!this.loadingElement)
-      return;
+    if (!this.loadingElement) return;
     this.loadingElement.setLoadingProgress(progress);
   }
   destroyLoadingElement() {
-    if (!this.loadingElement)
-      return;
+    if (!this.loadingElement) return;
     this.loadingElement.removeLoadingElement();
   }
   checkPopupShown() {
-    if (!this.isPopupShown)
-      return;
+    if (!this.isPopupShown) return;
     this.exceptionPendingRequest("Please wait for the popup to close");
   }
   async delayInitialAsync() {
     const { SlowAPI } = GameCore.Configs.Mockup.GameSDK;
-    if (!SlowAPI.Enabled || SlowAPI.InitialDelay <= 0)
-      return;
+    if (!SlowAPI.Enabled || SlowAPI.InitialDelay <= 0) return;
     await GameCore.Utils.Time.sleepAsync(SlowAPI.InitialDelay);
   }
   async delayStartAsync() {
     const { SlowAPI } = GameCore.Configs.Mockup.GameSDK;
-    if (!SlowAPI.Enabled || SlowAPI.StartDelay <= 0)
-      return;
+    if (!SlowAPI.Enabled || SlowAPI.StartDelay <= 0) return;
     await GameCore.Utils.Time.sleepAsync(SlowAPI.StartDelay);
   }
   async delayPlayerDataAsync() {
     const { SlowAPI } = GameCore.Configs.Mockup.GameSDK;
-    if (!SlowAPI.Enabled || SlowAPI.PlayerDataDelay <= 0)
-      return;
+    if (!SlowAPI.Enabled || SlowAPI.PlayerDataDelay <= 0) return;
     await GameCore.Utils.Time.sleepAsync(SlowAPI.PlayerDataDelay);
   }
   awaitRandomDelay(randomDelayMs = 1e3) {
@@ -618,8 +589,7 @@ var _Player = class _Player {
     __publicField(this, "connectedPlayers", null);
     __publicField(this, "getSignature", /* @__PURE__ */ __name(() => {
       const token = this.getSignatureFormMockup();
-      if (GameCore.Utils.Valid.isString(token))
-        return token;
+      if (GameCore.Utils.Valid.isString(token)) return token;
       return "default_token";
     }, "getSignature"));
     this.adapter = adapter;
@@ -657,8 +627,7 @@ var _Player = class _Player {
     const { Browser, Valid, Object: O } = GameCore.Utils;
     const data = Browser.getLocalStorage(this.infoKey);
     const { playerId } = this.currentPlayerInfo;
-    if (!Valid.isObject(data))
-      return playerId;
+    if (!Valid.isObject(data)) return playerId;
     if (O.hasOwn(data, "playerId") && Valid.isString(data.playerId)) {
       return data.playerId;
     }
@@ -668,8 +637,7 @@ var _Player = class _Player {
     const { Browser, Valid, Object: O } = GameCore.Utils;
     const data = Browser.getLocalStorage(this.infoKey);
     const { playerName } = this.currentPlayerInfo;
-    if (!Valid.isObject(data))
-      return playerName;
+    if (!Valid.isObject(data)) return playerName;
     if (O.hasOwn(data, "name") && Valid.isString(data.name)) {
       return data.name;
     }
@@ -679,8 +647,7 @@ var _Player = class _Player {
     const { Browser, Valid, Object: O } = GameCore.Utils;
     const data = Browser.getLocalStorage(this.infoKey);
     const { playerPhoto } = this.currentPlayerInfo;
-    if (!Valid.isObject(data))
-      return playerPhoto;
+    if (!Valid.isObject(data)) return playerPhoto;
     if (O.hasOwn(data, "photo") && Valid.isString(data.photo)) {
       return data.photo;
     }
@@ -690,10 +657,8 @@ var _Player = class _Player {
     await this.extra.delayPlayerDataAsync();
     const { Browser, Valid, Object: O } = GameCore.Utils;
     const data = Browser.getLocalStorage(this.dataKey);
-    if (!Valid.isObject(data))
-      return {};
-    if (keys.length === 0)
-      return data;
+    if (!Valid.isObject(data)) return {};
+    if (keys.length === 0) return data;
     const dataObject = {};
     keys.forEach((key) => {
       if (O.hasOwn(data, key)) {
@@ -708,9 +673,9 @@ var _Player = class _Player {
   }
   async getSignedPlayerInfoAsync() {
     return {
-      getPlayerID: () => {
+      getPlayerID: /* @__PURE__ */ __name(() => {
         return this.getID() ?? "";
-      },
+      }, "getPlayerID"),
       getSignature: this.getSignature
     };
   }
@@ -722,8 +687,7 @@ var _Player = class _Player {
     return this.connectedPlayers.getConnectedPlayersAsync();
   }
   updateCurrentPlayerInfo(playerId) {
-    if (!playerId)
-      return;
+    if (!playerId) return;
     const { Match } = GameCore.Configs.Mockup;
     const isPlayer = Match.PlayerInfo.Id === playerId;
     const isOpponent = Match.OpponentInfo.Id === playerId;
@@ -750,26 +714,20 @@ var _Player = class _Player {
     const { Match } = GameCore.Configs.Mockup;
     const isPlayer = Match.PlayerInfo.Id === this.getID();
     const isOpponent = Match.OpponentInfo.Id === this.getID();
-    if (isPlayer)
-      return Match.PlayerInfo.Signature;
-    if (isOpponent)
-      return Match.OpponentInfo.Signature;
+    if (isPlayer) return Match.PlayerInfo.Signature;
+    if (isOpponent) return Match.OpponentInfo.Signature;
     return null;
   }
   async loadMockSubscribeBot() {
-    if (this.subscribeBot)
-      return;
+    if (this.subscribeBot) return;
     const MockSubscribeBot = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof MockSubscribeBot !== "function")
-      return;
+    if (typeof MockSubscribeBot !== "function") return;
     this.subscribeBot = new MockSubscribeBot(this.adapter);
   }
   async loadMockConnectedPlayers() {
-    if (this.connectedPlayers)
-      return;
+    if (this.connectedPlayers) return;
     const MockConnectedPlayers = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof MockConnectedPlayers !== "function")
-      return;
+    if (typeof MockConnectedPlayers !== "function") return;
     this.connectedPlayers = new MockConnectedPlayers(this.extra);
   }
 };
@@ -860,8 +818,7 @@ var _Tournament = class _Tournament {
     __publicField(this, "createAsyncPopup", null);
     __publicField(this, "processEnterTournament", /* @__PURE__ */ __name(async (tournamentId) => {
       const tournamentData = this.getTournamentData(tournamentId);
-      if (!tournamentData)
-        return;
+      if (!tournamentData) return;
       await this.joinAsync(tournamentId);
     }, "processEnterTournament"));
     __publicField(this, "handleOnYes", /* @__PURE__ */ __name((resolve) => () => {
@@ -882,8 +839,7 @@ var _Tournament = class _Tournament {
   }
   async initTournamentInfoAsync(tournamentId) {
     const { Tournament: Tournament2 } = GameCore.Configs.Mockup.GameSDK;
-    if (!Tournament2.Enabled)
-      return;
+    if (!Tournament2.Enabled) return;
     await this.createMockTournamentsData();
     if (tournamentId) {
       await this.processEnterTournament(tournamentId);
@@ -895,8 +851,7 @@ var _Tournament = class _Tournament {
   async createMockTournamentsData() {
     const { Tournament: Tournament2 } = GameCore.Configs.Mockup.GameSDK;
     const { Normal: NumOfNormal, HostPage: NumOfHostPaged } = Tournament2.NumOfTournament;
-    if (!Tournament2.Enabled)
-      return;
+    if (!Tournament2.Enabled) return;
     const tournamentsData = this.getTournamentsData();
     const allTournaments = Object.values(tournamentsData);
     const tournaments = this.filterExpiredTournaments(allTournaments);
@@ -948,8 +903,7 @@ var _Tournament = class _Tournament {
         }
       });
       const tournamentId = tournament.getID().toString();
-      if (this.getTournamentLeadersData(tournamentId))
-        return;
+      if (this.getTournamentLeadersData(tournamentId)) return;
       const playerLimit = GameCore.Utils.Number.random(2);
       const connectedPlayerIds = window.game.player.getConnectedPlayerIds(playerLimit, 0);
       const leaders = connectedPlayerIds.map((playerId2) => {
@@ -993,8 +947,7 @@ var _Tournament = class _Tournament {
         true
       );
       const tournamentId = tournament.getID().toString();
-      if (this.getTournamentLeadersData(tournamentId))
-        return;
+      if (this.getTournamentLeadersData(tournamentId)) return;
       const leaderLength = GameCore.Utils.Number.random(2);
       const leaders = Array.from({ length: leaderLength }, () => {
         return {
@@ -1015,24 +968,19 @@ var _Tournament = class _Tournament {
     const { Mockup } = GameCore.Configs;
     const { ErrorRates } = Mockup.GameSDK.Tournament;
     const isError = Math.random() * 100 < ErrorRates;
-    if (!isError)
-      return;
+    if (!isError) return;
     this.extra.randomException(errors);
   }
   async loadCreateTournamentPopupAsync() {
-    if (this.createAsyncPopup)
-      return;
+    if (this.createAsyncPopup) return;
     const CreateAsyncPopup = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof CreateAsyncPopup !== "function")
-      return;
+    if (typeof CreateAsyncPopup !== "function") return;
     this.createAsyncPopup = new CreateAsyncPopup();
   }
   async loadSharePopupAsync() {
-    if (this.shareAsyncPopup)
-      return;
+    if (this.shareAsyncPopup) return;
     const ShareAsyncPopup = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof ShareAsyncPopup !== "function")
-      return;
+    if (typeof ShareAsyncPopup !== "function") return;
     this.shareAsyncPopup = new ShareAsyncPopup();
   }
   async createAsync(payload) {
@@ -1111,7 +1059,12 @@ var _Tournament = class _Tournament {
     this.randomError(GetTournamentsErrorList);
     const tournamentsData = this.getTournamentsData();
     const tournaments = Object.values(tournamentsData);
-    return tournaments.map((tournament) => this.getTournamentInstance(tournament.id));
+    const tournamentInstances = tournaments.map(
+      (tournament) => this.getTournamentInstance(tournament.id)
+    );
+    return tournamentInstances.filter(
+      (tournament) => tournament !== null
+    );
   }
   async joinAsync(tournamentId) {
     await this.awaitRandomDelay();
@@ -1133,8 +1086,7 @@ var _Tournament = class _Tournament {
   }
   getCurrentTournament() {
     const contextId = this.context.getID();
-    if (!contextId)
-      return null;
+    if (!contextId) return null;
     const tournamentsData = this.getTournamentsData();
     for (const tournamentId in tournamentsData) {
       if (Object.hasOwn(tournamentsData, tournamentId)) {
@@ -1192,27 +1144,24 @@ var _Tournament = class _Tournament {
   }
   validateAvailableTournament() {
     const tournament = this.getCurrentTournament();
-    if (tournament)
-      return;
+    if (tournament) return;
     this.extra.exceptionTournamentNotFound("There is no tournament for this context.");
   }
   getTournamentInstance(id) {
     const tournamentData = this.getTournamentData(id);
-    if (!tournamentData)
-      return null;
+    if (!tournamentData) return null;
     return {
-      getID: () => tournamentData.id,
-      getTitle: () => tournamentData.title,
-      getPayload: () => tournamentData.payload,
-      getEndTime: () => tournamentData.endTime,
-      getContextID: () => tournamentData.contextId,
-      getTournamentType: () => tournamentData.tournamentType
+      getID: /* @__PURE__ */ __name(() => tournamentData.id, "getID"),
+      getTitle: /* @__PURE__ */ __name(() => tournamentData.title, "getTitle"),
+      getPayload: /* @__PURE__ */ __name(() => tournamentData.payload, "getPayload"),
+      getEndTime: /* @__PURE__ */ __name(() => tournamentData.endTime, "getEndTime"),
+      getContextID: /* @__PURE__ */ __name(() => tournamentData.contextId, "getContextID"),
+      getTournamentType: /* @__PURE__ */ __name(() => tournamentData.tournamentType, "getTournamentType")
     };
   }
   getTournamentData(id) {
     const tournaments = this.getTournamentsData();
-    if (!tournaments[id])
-      return null;
+    if (!tournaments[id]) return null;
     return tournaments[id];
   }
   writeTournamentData(id, data) {
@@ -1223,29 +1172,24 @@ var _Tournament = class _Tournament {
   getTournamentsData() {
     const { Browser: B, Valid: V } = GameCore.Utils;
     const data = B.getLocalStorage(TOURNAMENTS_DATA_MOCK_KEY);
-    if (!V.isObject(data))
-      return {};
+    if (!V.isObject(data)) return {};
     return data;
   }
   writeTournamentsData(tournaments) {
     const { Browser: B, Valid: V } = GameCore.Utils;
-    if (!V.isObject(tournaments))
-      return;
+    if (!V.isObject(tournaments)) return;
     B.writeLocalStorage(TOURNAMENTS_DATA_MOCK_KEY, tournaments);
   }
   getBestScore(tournamentId, playerId) {
     const leader = this.getTournamentLeader(tournamentId, playerId);
-    if (!leader)
-      return null;
+    if (!leader) return null;
     return leader.score ?? null;
   }
   updateBestScore(playerId, score) {
     const tournament = this.getCurrentTournament();
-    if (!tournament)
-      return;
+    if (!tournament) return;
     const tournamentId = tournament.getID().toString();
-    if (!tournamentId)
-      return;
+    if (!tournamentId) return;
     const leader = this.getTournamentLeader(tournamentId, playerId);
     if (!leader) {
       this.writeTournamentLeader(tournamentId, {
@@ -1261,18 +1205,15 @@ var _Tournament = class _Tournament {
   }
   getTournamentLeader(tournamentId, playerId) {
     const tournamentLeaders = this.getTournamentLeadersData(tournamentId);
-    if (!tournamentLeaders.length)
-      return null;
+    if (!tournamentLeaders.length) return null;
     return tournamentLeaders.find((leader) => leader.playerId === playerId) ?? null;
   }
   getTournamentLeadersData(tournamentId) {
     const { Browser: B, Object: O } = GameCore.Utils;
     const data = B.getLocalStorage(TOURNAMENT_LEADERS_MOCK_KEY);
-    if (!O.hasOwn(data, tournamentId))
-      return [];
+    if (!O.hasOwn(data, tournamentId)) return [];
     const tournamentLeaders = data[tournamentId];
-    if (!Array.isArray(tournamentLeaders))
-      return [];
+    if (!Array.isArray(tournamentLeaders)) return [];
     tournamentLeaders.sort((a, b) => b.score - a.score);
     return tournamentLeaders;
   }
@@ -1290,8 +1231,7 @@ var _Tournament = class _Tournament {
   }
   writeTournamentLeadersData(tournamentId, tournamentLeaders) {
     const { Browser: B } = GameCore.Utils;
-    if (!Array.isArray(tournamentLeaders))
-      return;
+    if (!Array.isArray(tournamentLeaders)) return;
     const data = B.getLocalStorage(TOURNAMENT_LEADERS_MOCK_KEY) ?? {};
     Object.assign(data, { [tournamentId]: tournamentLeaders });
     B.writeLocalStorage(TOURNAMENT_LEADERS_MOCK_KEY, data);
@@ -1325,14 +1265,10 @@ var _GameSDK = class _GameSDK {
   }
   getPlatform() {
     const { Device } = GameCore.Utils;
-    if (Device.isAndroid())
-      return "ANDROID";
-    if (Device.isIOS())
-      return "IOS";
-    if (Device.isDesktop())
-      return "WEB";
-    if (Device.isMobile())
-      return "MOBILE_WEB";
+    if (Device.isAndroid()) return "ANDROID";
+    if (Device.isIOS()) return "IOS";
+    if (Device.isDesktop()) return "WEB";
+    if (Device.isMobile()) return "MOBILE_WEB";
     return null;
   }
   getSDKName() {
@@ -1342,8 +1278,7 @@ var _GameSDK = class _GameSDK {
     return "1.0.0";
   }
   async initializeAsync() {
-    if (this.isInitialized)
-      return;
+    if (this.isInitialized) return;
     this.initialize();
     this.extra.createLoadingElement();
     await this.extra.waitGameCoreReadyAsync();
@@ -1383,8 +1318,7 @@ var _GameSDK = class _GameSDK {
     return "no_entry";
   }
   async loadBannerAdAsync(placementId) {
-    if (!placementId)
-      return;
+    if (!placementId) return;
     if (!this.bannerAdInstances[placementId]) {
       const MockBannerInstance = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
       if (typeof MockBannerInstance !== "function") {
@@ -1396,8 +1330,7 @@ var _GameSDK = class _GameSDK {
     await this.bannerAdInstances[placementId].showAsync();
   }
   async hideBannerAdAsync(placementId) {
-    if (!this.bannerAdInstances[placementId])
-      return;
+    if (!this.bannerAdInstances[placementId]) return;
     await this.bannerAdInstances[placementId].hideAsync();
   }
   getBannerHeight(bannerConfig) {
@@ -1462,11 +1395,9 @@ var _GameSDK = class _GameSDK {
     return this.shortcut.createShortcutAsync();
   }
   async loadMockAddShortcut() {
-    if (this.shortcut)
-      return;
+    if (this.shortcut) return;
     const MockAddShortcut = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
-    if (typeof MockAddShortcut !== "function")
-      return;
+    if (typeof MockAddShortcut !== "function") return;
     this.shortcut = new MockAddShortcut(this);
   }
 };
@@ -1690,11 +1621,9 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   }
   updateLoginEnabledConfig() {
     const gameConfig = define_GAME_SDK_CONFIG_default;
-    if (!gameConfig)
-      return;
+    if (!gameConfig) return;
     const { MSGames } = gameConfig;
-    if (!MSGames)
-      return;
+    if (!MSGames) return;
     this.isLoginEnabled = MSGames.UseLoginFeature;
   }
   async initPlayerAsync() {
@@ -1743,8 +1672,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     try {
       const playerName = await this.getRandomName();
       const playerId = playerName.replace(/ /g, "-");
-      if (playerId === this.getID())
-        return;
+      if (playerId === this.getID()) return;
       this.currentPlayerInfo.playerId = playerId;
       this.currentPlayerInfo.playerName = playerName;
       this._personalInfo = {
@@ -1787,22 +1715,22 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   }
   getSignedASIDAsync() {
     return Promise.resolve({
-      getASID: () => {
+      getASID: /* @__PURE__ */ __name(() => {
         return this.getID() ?? "";
-      },
-      getSignature: () => {
+      }, "getASID"),
+      getSignature: /* @__PURE__ */ __name(() => {
         return this.signature;
-      }
+      }, "getSignature")
     });
   }
   getSignedPlayerInfoAsync() {
     return Promise.resolve({
-      getPlayerID: () => {
+      getPlayerID: /* @__PURE__ */ __name(() => {
         return this.getID() ?? "10";
-      },
-      getSignature: () => {
+      }, "getPlayerID"),
+      getSignature: /* @__PURE__ */ __name(() => {
         return this.signature;
-      }
+      }, "getSignature")
     });
   }
   canSubscribeBotAsync() {
@@ -1834,8 +1762,7 @@ var _MSAdapter = class _MSAdapter extends GameSDK_default {
     this.interstitialAdInstance = new MSAdInstance_default("interstitial", this.sdk);
   }
   async initializeAsync() {
-    if (this.isInitialized)
-      return;
+    if (this.isInitialized) return;
     await super.initializeAsync();
     this.isInitialized = false;
     try {
@@ -1919,8 +1846,7 @@ var blockAccess = /* @__PURE__ */ __name((source) => {
     const stackLines = error.stack.split("\n");
     const stackLineCount = stackLines.length;
     const callerLine = stackLineCount >= 4 ? stackLines[3] : stackLines[0];
-    if (!callerLine)
-      return source;
+    if (!callerLine) return source;
     if (usedCallLocations.includes(callerLine)) {
       return source;
     }
@@ -1936,13 +1862,10 @@ var blockAccess = /* @__PURE__ */ __name((source) => {
   }
 }, "blockAccess");
 var wrapGetterToBlockObjectAccess = /* @__PURE__ */ __name((source, key) => {
-  if ("true")
-    return;
-  if (false)
-    return;
+  if (true) return;
+  if (false) return;
   const originalValue = Object.getOwnPropertyDescriptor(source, key)?.value;
-  if (!originalValue)
-    return;
+  if (!originalValue) return;
   Object.defineProperty(source, key, {
     enumerable: false,
     get() {
@@ -1997,7 +1920,7 @@ var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "5", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "6", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
@@ -2008,8 +1931,7 @@ var stepProgressLoading = /* @__PURE__ */ __name(() => {
       clearInterval(gameSdkLoadingTimer);
       return;
     }
-    if (lastProgress === window.__sdkLoadingCount)
-      return;
+    if (lastProgress === window.__sdkLoadingCount) return;
     lastProgress = window.__sdkLoadingCount;
     GameSDK.setLoadingProgress(window.__sdkLoadingCount);
   }, 300);
@@ -2020,7 +1942,7 @@ var initGameSDK = /* @__PURE__ */ __name(async () => {
   await GameSDK.initializeAsync();
   window.__sdkLoadingCount = 1;
   GameSDK.setLoadingProgress(window.__sdkLoadingCount);
-  if ("true") {
+  if (true) {
     stepProgressLoading();
   } else {
     autoProgressLoading();
@@ -2032,16 +1954,13 @@ var initGameSDK = /* @__PURE__ */ __name(async () => {
 }, "initGameSDK");
 var userProperties = {};
 var processGoogleAnalytics = /* @__PURE__ */ __name(() => {
-  if (!initConfig)
-    return;
+  if (!initConfig) return;
   const { TAGS_TO_CONFIG = [], BUILD_VERSION } = initConfig || {};
   const userId = GameSDK.player.getID();
   initGoogleAnalytics(TAGS_TO_CONFIG, BUILD_VERSION, userId);
   updateUserPropertiesWhenPlayerInfoLoaded(userId);
 }, "processGoogleAnalytics");
 var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, buildVer, userId) => {
-  if (!window.gtag)
-    return;
   try {
     window.focus();
     let entryPoint = "no_entry";
@@ -2064,15 +1983,13 @@ var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, buildVer, userId) => {
       configs.medium = entryPoint;
       userProperties.traffic_source = entryPoint;
       tagIds.forEach((gaId) => {
-        if (!gaId || gaId === "null")
-          return;
+        if (!gaId || gaId === "null") return;
         window.gtag("config", gaId, configs);
       });
       window.gtag("set", "user_properties", userProperties);
     });
     tagIds.forEach((gaId) => {
-      if (!gaId || gaId === "null")
-        return;
+      if (!gaId || gaId === "null") return;
       window.gtag("config", gaId, configs);
     });
     window.gtag("set", "client_id", `100.${userId}`);
@@ -2090,8 +2007,7 @@ var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, buildVer, userId) => {
   }
 }, "initGoogleAnalytics");
 var updateUserPropertiesWhenPlayerInfoLoaded = /* @__PURE__ */ __name((userId) => {
-  if (!userId || window.game?.player)
-    return;
+  if (!userId || !window.game || !window.game.player) return;
   const isNewUser = window.game.player.isFirstLogin();
   userProperties.new_user = isNewUser;
   window.gtag("set", "user_properties", userProperties);

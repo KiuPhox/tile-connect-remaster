@@ -39,9 +39,11 @@
 <link rel="prefetch" href="./assets/start-scene/index.js" as="script" importance="high" />
 <link rel="prefetch" href="./track-errors.js" as="script" importance="low" />
 <link rel="prefetch" href="./assets/start-scene/config.json" as="fetch" importance="auto" />
-<link rel="prefetch" href="./assets/start-scene/import/08/085274f5e.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/start-scene/import/0d/0dba58f6f.json" as="fetch" importance="auto" />
 <link rel="prefetch" href="./assets/internal/config.json" as="fetch" importance="auto" />
 <link rel="prefetch" href="./assets/internal/import/0a/0a93f2575.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/resources/config.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/resources/import/0e/0edaa12e0.json" as="fetch" importance="auto" />
 
         <script>
             var perf = window.performance || {
@@ -66,14 +68,15 @@
     }
     
     gtag('js', new Date())
-    gtag('set', 'app_version', '5')
+    gtag('set', 'app_version', '6')
+    gtag('event', 'app_load')
 
     var tagIds = 'null'.split(' ')
     if (tagIds.length > 0) {
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
             gtag('config', tagId, {
-                build_version: '5',
+                build_version: '6',
                 send_page_view: false
             })
         })
