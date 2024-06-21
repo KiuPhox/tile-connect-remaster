@@ -39,13 +39,34 @@
 <link rel="prefetch" href="./assets/start-scene/index.js" as="script" importance="high" />
 <link rel="prefetch" href="./track-errors.js" as="script" importance="low" />
 <link rel="prefetch" href="./assets/start-scene/config.json" as="fetch" importance="auto" />
-<link rel="prefetch" href="./assets/start-scene/import/0d/0dba58f6f.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/start-scene/import/07/07c054aab.json" as="fetch" importance="auto" />
 <link rel="prefetch" href="./assets/internal/config.json" as="fetch" importance="auto" />
 <link rel="prefetch" href="./assets/internal/import/0a/0a93f2575.json" as="fetch" importance="auto" />
 <link rel="prefetch" href="./assets/resources/config.json" as="fetch" importance="auto" />
-<link rel="prefetch" href="./assets/resources/import/0e/0edaa12e0.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/resources/import/07/07c7e1f9f.json" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/f9/f94c012b-85bf-4d20-8433-068eb61737e3.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/ce/cecc61e1-0755-43f1-918f-40762f098fc6.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/c8/c89f664f-c54f-4928-8112-f4d5e54889c1.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/9d/9d2c2b8c-58b3-4e61-9a59-ce0014ace27a.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/8d/8d04bb65-32a6-4fa5-b195-f900df37aa01.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/81/8129b19f-4842-4b28-ba2c-ed34241bf0f8.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/81/81035c81-1637-45db-baf5-2cde12c76000.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/7e/7e7a4658-777e-465c-afc3-4c9ea3f408a1.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/63/63eb40d0-29df-4df6-aaa1-b899cd332644.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/5e/5e5fcd35-fd2e-45c8-ae26-75e07ea7f194.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/4b/4b18c745-f92b-41fe-9209-51eb8bd87b24.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/3e/3e12f25c-b3ee-4777-bc24-1bd9d6fad8ee.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/39/39afb24b-c855-483c-bff7-2b6c7eb8b7b6.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/36/36779a82-8e95-4f3a-83c9-1d50c687752b.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/36/36455537-d46b-4c98-8ea5-db1660f67481.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/34/34f48ac5-f315-462a-929b-d9dd511bca2b.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/16/160b4e15-ef01-4a8a-8715-1053e8caf0ff.cconb" as="fetch" importance="auto" />
+<link rel="prefetch" href="./assets/main/import/10/103150f4-09f7-4263-8510-9e473ae23f05.cconb" as="fetch" importance="auto" />
 
         <script>
+            // ? Temporary fix for the issue that the game will not load on some devices
+            window.matchMedia = null
+
             var perf = window.performance || {
                 mark: function () {},
                 measure: function () {},
@@ -68,7 +89,7 @@
     }
     
     gtag('js', new Date())
-    gtag('set', 'app_version', '10')
+    gtag('set', 'app_version', '11')
     gtag('event', 'app_load')
 
     var tagIds = 'null'.split(' ')
@@ -76,7 +97,7 @@
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
             gtag('config', tagId, {
-                build_version: '10',
+                build_version: '11',
                 send_page_view: false
             })
         })
@@ -96,22 +117,29 @@
 
         <!--  -->
         
-    <script src="src/polyfills.bundle.js" charset="utf-8"></script>
-    <!-- SystemJS support. -->
-    <script src="src/system.bundle.js" charset="utf-8"></script>
 
-    <!-- Import map -->
-    <script src="src/import-map.json" type="systemjs-importmap" charset="utf-8"></script>
+<!-- Polyfills bundle. -->
 
-    <script>
-        System.import('./GameCore.js').catch(function (err) {})
-        System.import('./index.js').catch(function (err) {})
-        System.import('./cocos-js/cc.js').catch(function (err) {})
-    </script>
+<script src="src/polyfills.bundle.js" charset="utf-8"> </script>
+
+
+<!-- SystemJS support. -->
+<script src="src/system.bundle.js" charset="utf-8"> </script>
+
+<!-- Import map -->
+<script src="src/import-map.json" type="systemjs-importmap" charset="utf-8"> </script>
+
+<script>
+    System.import('./index.js').catch(function(err) { console.error(err); })
+</script>
+
 
         <!--  -->
         
-      
+      <script type="module" crossorigin src="./GameCore.js"></script>
+      <link rel="modulepreload" crossorigin href="./bundle/core.js">
+      <link rel="modulepreload" crossorigin href="./bundle/__commonjsHelpers__.js">
+      <link rel="stylesheet" crossorigin href="./assets/style-CnEtUeee.css">
     </head>
 
     <body>
@@ -121,7 +149,7 @@
         <!-- Google Tag Manager -->
         
 
-        <!-- Google Tag Manager -->
+        <!-- Google Tag Manager No Script -->
         
 
 

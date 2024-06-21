@@ -1,5 +1,4 @@
-(function () {"use strict";
-var __defProp = Object.defineProperty;
+(function () {var __defProp = Object.defineProperty;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
@@ -1922,12 +1921,11 @@ __name(autoDetectAndInitializeSDKAdapter, "autoDetectAndInitializeSDKAdapter");
 console.groupCollapsed(`\u{1F579}\uFE0F GameSDK`);
 window.GameSDK = Object.seal(autoDetectAndInitializeSDKAdapter());
 security_default(window, "GameSDK");
-})();(function () {"use strict";
-var __defProp = Object.defineProperty;
+})();(function () {var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "10", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "11", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;

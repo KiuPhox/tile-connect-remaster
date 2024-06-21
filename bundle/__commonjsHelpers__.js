@@ -1,1 +1,1 @@
-var n=Object.defineProperty;var r=(t,u)=>n(t,"name",{value:u,configurable:!0});System.register([],function(t,u){"use strict";return{execute:r(function(){t("g",o);function o(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}r(o,"getDefaultExportFromCjs")},"execute")}});
+var r=Object.defineProperty;var e=(t,o)=>r(t,"name",{value:o,configurable:!0});function l(t){return t&&t.__esModule&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t}e(l,"getDefaultExportFromCjs");export{l as g};
