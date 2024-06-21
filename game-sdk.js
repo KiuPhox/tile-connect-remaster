@@ -1335,9 +1335,6 @@ var _GameSDK = class _GameSDK {
   getBannerHeight(bannerConfig) {
     return bannerConfig.BannerHeight;
   }
-  getBannerWidth(bannerConfig) {
-    return bannerConfig.BannerWidth ? bannerConfig.BannerWidth : null;
-  }
   async getInterstitialAdAsync(placementId) {
     if (!this.interstitialAdInstance) {
       const MockAdInstance = (await Promise.resolve().then(() => (init_empty_script(), empty_script_exports))).default;
@@ -1511,6 +1508,7 @@ var MSAdInstance_default = MSAdInstance;
 init_define_GAME_SDK_CONFIG();
 init_define_INIT_CONFIG();
 var GameName2 = "Tile Connect Remaster".replace(/ /g, "-");
+var BANNER_AD_OFFSET_X = 20;
 var _MSExtra = class _MSExtra extends Extra_default {
   constructor(adapter) {
     super(adapter);
@@ -1578,6 +1576,9 @@ var _MSExtra = class _MSExtra extends Extra_default {
     } catch (error) {
       console.warn("scheduleNotificationAsync", error);
     }
+  }
+  getBannerOffset() {
+    return BANNER_AD_OFFSET_X;
   }
   isValidDisplayAdPlacement(placement) {
     const listSupports = [
@@ -1750,7 +1751,6 @@ var MSPlayer = _MSPlayer;
 var MSPlayer_default = MSPlayer;
 
 // src/game-sdk/adapters/msgames/MSAdapter.ts
-var BANNER_AD_OFFSET_X = 20;
 var _MSAdapter = class _MSAdapter extends GameSDK_default {
   constructor(sdk) {
     super();
@@ -1816,9 +1816,6 @@ var _MSAdapter = class _MSAdapter extends GameSDK_default {
     } else {
       await this.sdk.showDisplayAdsAsync(placement);
     }
-  }
-  getBannerWidth(bannerConfig) {
-    return bannerConfig.BannerWidth ? bannerConfig.BannerWidth + BANNER_AD_OFFSET_X : null;
   }
   async hideBannerAdAsync(_placementId) {
     try {
@@ -1925,7 +1922,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "13", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "14", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
