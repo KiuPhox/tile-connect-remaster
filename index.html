@@ -64,15 +64,20 @@
 <link rel="prefetch" href="./assets/main/import/10/103150f4-09f7-4263-8510-9e473ae23f05.cconb" as="fetch" importance="auto" />
 
         <script>
-            // ? Temporary fix for the issue that the game will not load on some devices
-            window.matchMedia = null
-
             var perf = window.performance || {
                 mark: function () {},
                 measure: function () {},
             }
             window.perf = perf
             perf.mark('load-start')
+
+            // Check if matchMedia work't and set window.matchMedia to null (Cocos Engine issue: screen-adapter)
+            if (typeof window.matchMedia === 'function') {
+                var test = window.matchMedia('(orientation: portrait)')
+                if (test === null) {
+                    window.matchMedia = null
+                }
+            }
         </script>
 
         <!-- Polyfill runtime -->
@@ -89,19 +94,20 @@
     }
     
     gtag('js', new Date())
-    gtag('set', 'app_version', '21')
-    gtag('event', 'app_load')
+    gtag('set', 'app_version', '25')
 
     var tagIds = 'null'.split(' ')
     if (tagIds.length > 0) {
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
             gtag('config', tagId, {
-                build_version: '21',
+                build_version: '25',
                 send_page_view: false
             })
         })
     }
+    
+    gtag('event', 'app_load')
 </script>
 
         <!-- Game Distribution -->
@@ -119,8 +125,6 @@
         
 
 <!-- Polyfills bundle. -->
-
-<script src="src/polyfills.bundle.js" charset="utf-8"> </script>
 
 
 <!-- SystemJS support. -->

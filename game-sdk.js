@@ -96,12 +96,10 @@ var _Context = class _Context {
   initContextInfo(contextId, contextType) {
     this.contextIdsByCreate = {};
     this.playerIdsInContexts = {};
-    this.contextIdsByChoose = Array.from(
-      { length: 10 },
-      () => GameCore.Utils.Number.random(10).toString()
-    );
+    const list = Array.prototype.slice.call({ length: 10 });
+    this.contextIdsByChoose = list.map(() => GameCore.Utils.Number.random(10).toString());
     if (!contextId || !contextType) return;
-    if (!["SOLO", "THREAD", "POST", "GROUP"].includes(contextType)) {
+    if (["SOLO", "THREAD", "POST", "GROUP"].indexOf(contextType) < 0) {
       console.warn(`Invalid context type: ${contextType}`);
       return;
     }
@@ -213,10 +211,8 @@ var _Context = class _Context {
   createPlayerIdsInContext(contextId, maxPlayers) {
     if (!this.playerIdsInContexts[contextId]) {
       const rand = Math.floor(Math.random() * maxPlayers);
-      const playerIds = Array.from(
-        { length: rand },
-        () => GameCore.Utils.Number.random(10).toString()
-      );
+      const list = Array.prototype.slice.call({ length: rand });
+      const playerIds = list.map(() => GameCore.Utils.Number.random(10).toString());
       this.playerIdsInContexts[contextId] = playerIds;
     }
     return this.playerIdsInContexts[contextId];
@@ -290,54 +286,7 @@ var html = (
 );
 var css = (
   /*css*/
-  `
-#lds-dual-ring {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: #515151 transparent #fff transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
-    -webkit-animation: lds-dual-ring 1.2s linear infinite;
-}
-
-#lds-text {
-    color: #fff;
-    font-family: monospace;
-    display: flex;
-    font-size: 1.2rem;
-    position: absolute;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    text-shadow: 0 0.5px 1px #999;
-}
-
-#lds-content {
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    background-color: #515151;
-    pointer-events: none;
-    transition: background-color 0.5s ease-in-out;
-}
-
-@keyframes lds-dual-ring {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-`
+  `#lds-dual-ring{width:64px;height:64px;border-radius:50%;border:6px solid #fff;border-color:#515151 transparent #fff transparent;animation:lds-dual-ring 1.2s linear infinite;-webkit-animation:lds-dual-ring 1.2s linear infinite}#lds-text{color:#fff;font-family:monospace;display:flex;font-size:1.2rem;position:absolute;justify-content:center;align-content:center;align-items:center;width:100%;height:100%;text-shadow:0 .5px 1px #999}#lds-content{top:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;position:absolute;background-color:#515151;pointer-events:none;transition:background-color .5s ease-in-out}@keyframes lds-dual-ring{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}`
 );
 var loadingId = "lds-content";
 var _LoadingScreenElement = class _LoadingScreenElement {
@@ -848,11 +797,12 @@ var _Tournament = class _Tournament {
    * @deprecated Only for testing
    */
   async createMockTournamentsData() {
+    const { Object: O } = GameCore.Utils;
     const { Tournament: Tournament2 } = GameCore.Configs.Mockup.GameSDK;
     const { Normal: NumOfNormal, HostPage: NumOfHostPaged } = Tournament2.NumOfTournament;
     if (!Tournament2.Enabled) return;
     const tournamentsData = this.getTournamentsData();
-    const allTournaments = Object.values(tournamentsData);
+    const allTournaments = O.vals(tournamentsData);
     const tournaments = this.filterExpiredTournaments(allTournaments);
     const currentDefaultTournaments = tournaments.filter(
       (tournament) => tournament.tournamentType === "DEFAULT"
@@ -879,11 +829,11 @@ var _Tournament = class _Tournament {
     return validTournaments;
   }
   createDefaultTournaments(length) {
-    const { String: S } = GameCore.Utils;
+    const { String: S, Array: A } = GameCore.Utils;
     const { leaderboard } = window.game;
     const playerId = GameSDK.player.getID();
     const playerName = GameSDK.player.getName();
-    return Array.from({ length }, async () => {
+    return A.length(length).map(async () => {
       const title = `${playerName}'s Tournament ${S.generateObjectId()}`;
       const { ExtraPlayerTournamentPayload = {} } = GameCore.Configs.Mockup.GameSDK.Tournament;
       const leaderboardId = await leaderboard.createLeaderboardAsync({
@@ -916,11 +866,11 @@ var _Tournament = class _Tournament {
     });
   }
   createGlobalTournaments(length) {
-    const { String: S } = GameCore.Utils;
+    const { String: S, Array: A, Number: N } = GameCore.Utils;
     const { leaderboard } = window.game;
     const { ExtraGlobalTournamentPayload = {} } = GameCore.Configs.Mockup.GameSDK.Tournament;
     const playerId = GameSDK.player.getID();
-    return Array.from({ length }, async () => {
+    return A.length(length).map(async () => {
       const id = S.generateObjectId();
       const payload = {
         playerId,
@@ -947,11 +897,11 @@ var _Tournament = class _Tournament {
       );
       const tournamentId = tournament.getID().toString();
       if (this.getTournamentLeadersData(tournamentId)) return;
-      const leaderLength = GameCore.Utils.Number.random(2);
-      const leaders = Array.from({ length: leaderLength }, () => {
+      const leaderLength = N.random(2);
+      const leaders = A.length(leaderLength).map(() => {
         return {
           playerId: S.generateObjectId(),
-          score: GameCore.Utils.Number.random(4)
+          score: N.random(4)
         };
       });
       leaders.sort((a, b) => a.score - b.score);
@@ -1015,8 +965,8 @@ var _Tournament = class _Tournament {
   async postScoreAsync(score) {
     await this.awaitRandomDelay();
     this.validateAvailableTournament();
-    if (!Number.isSafeInteger(score)) {
-      this.extra.exceptionInvalidParam("Score must be an safe integer");
+    if (score < 0) {
+      this.extra.exceptionInvalidParam("Score must be a positive number");
     }
     this.randomError(PostScoreErrorList);
     const playerId = window.game.player.getPlayerId();
@@ -1057,7 +1007,8 @@ var _Tournament = class _Tournament {
     await this.awaitRandomDelay();
     this.randomError(GetTournamentsErrorList);
     const tournamentsData = this.getTournamentsData();
-    const tournaments = Object.values(tournamentsData);
+    const { Object: O } = GameCore.Utils;
+    const tournaments = O.vals(tournamentsData);
     const tournamentInstances = tournaments.map(
       (tournament) => this.getTournamentInstance(tournament.id)
     );
@@ -1205,7 +1156,8 @@ var _Tournament = class _Tournament {
   getTournamentLeader(tournamentId, playerId) {
     const tournamentLeaders = this.getTournamentLeadersData(tournamentId);
     if (!tournamentLeaders.length) return null;
-    return tournamentLeaders.find((leader) => leader.playerId === playerId) ?? null;
+    const { Array: A } = GameCore.Utils;
+    return A.search(tournamentLeaders, (leader) => leader.playerId === playerId) ?? null;
   }
   getTournamentLeadersData(tournamentId) {
     const { Browser: B, Object: O } = GameCore.Utils;
@@ -1217,8 +1169,10 @@ var _Tournament = class _Tournament {
     return tournamentLeaders;
   }
   writeTournamentLeader(tournamentId, leader) {
+    const { Array: A } = GameCore.Utils;
     const tournamentLeaders = this.getTournamentLeadersData(tournamentId);
-    const leaderIndex = tournamentLeaders.findIndex(
+    const leaderIndex = A.searchIndex(
+      tournamentLeaders,
       (tournamentLeader) => tournamentLeader.playerId === leader.playerId
     );
     if (leaderIndex === -1) {
@@ -1229,10 +1183,10 @@ var _Tournament = class _Tournament {
     this.writeTournamentLeadersData(tournamentId, tournamentLeaders);
   }
   writeTournamentLeadersData(tournamentId, tournamentLeaders) {
-    const { Browser: B } = GameCore.Utils;
+    const { Browser: B, Object: O } = GameCore.Utils;
     if (!Array.isArray(tournamentLeaders)) return;
     const data = B.getLocalStorage(TOURNAMENT_LEADERS_MOCK_KEY) ?? {};
-    Object.assign(data, { [tournamentId]: tournamentLeaders });
+    O.assign(data, { [tournamentId]: tournamentLeaders });
     B.writeLocalStorage(TOURNAMENT_LEADERS_MOCK_KEY, data);
   }
 };
@@ -1283,7 +1237,7 @@ var _GameSDK = class _GameSDK {
     await this.extra.waitGameCoreReadyAsync();
     await this.extra.delayInitialAsync();
     const params = GameCore.Utils.Browser.getQueryParams();
-    console.info("GameCore params:", params);
+    console.info("Browser params:", params);
     const splashPreview = params["splashPreview"];
     if (splashPreview) {
       this.extra.destroyLoadingElement();
@@ -1358,11 +1312,12 @@ var _GameSDK = class _GameSDK {
   async getTournamentAsync() {
     this.tournament.randomError(["Unsupported", "NetworkFailure"]);
     const currentContextID = this.context.getID();
-    if (!GameCore.Utils.Valid.isString(currentContextID)) {
+    const { Array: A, Valid: V } = GameCore.Utils;
+    if (!V.isString(currentContextID)) {
       this.extra.exceptionInvalidOperation("Not in a context");
     }
     const tournaments = await this.tournament.getTournamentsAsync();
-    const wantedTournament = tournaments.find((tournament) => {
+    const wantedTournament = A.search(tournaments, (tournament) => {
       return tournament.getContextID() === currentContextID;
     });
     if (!wantedTournament) {
@@ -1471,8 +1426,8 @@ var _MSAdInstance = class _MSAdInstance extends AdInstance_default {
     } catch (error2) {
       return false;
     }
-    const isClientError = errorAsString.includes("LOAD_ADS_CLIENT_FAILURE");
-    const isAlreadyLoadedError = errorAsString.includes("Ads already loaded.");
+    const isClientError = errorAsString.indexOf("LOAD_ADS_CLIENT_FAILURE") > -1;
+    const isAlreadyLoadedError = errorAsString.indexOf("Ads already loaded.") > -1;
     return isClientError && isAlreadyLoadedError;
   }
   async showAsync() {
@@ -1508,7 +1463,6 @@ var MSAdInstance_default = MSAdInstance;
 init_define_GAME_SDK_CONFIG();
 init_define_INIT_CONFIG();
 var GameName2 = "Tile Connect Remaster".replace(/ /g, "-");
-var BANNER_AD_OFFSET_X = 20;
 var _MSExtra = class _MSExtra extends Extra_default {
   constructor(adapter) {
     super(adapter);
@@ -1577,9 +1531,6 @@ var _MSExtra = class _MSExtra extends Extra_default {
       console.warn("scheduleNotificationAsync", error);
     }
   }
-  getBannerOffset() {
-    return BANNER_AD_OFFSET_X;
-  }
   isValidDisplayAdPlacement(placement) {
     const listSupports = [
       "top:728x90",
@@ -1601,10 +1552,7 @@ var _MSExtra = class _MSExtra extends Extra_default {
       "left:160x600",
       "right:160x600"
     ];
-    if (listSupports.includes(placement)) {
-      return true;
-    }
-    return false;
+    return listSupports.indexOf(placement) > -1;
   }
 };
 __name(_MSExtra, "MSExtra");
@@ -1801,8 +1749,12 @@ var _MSAdapter = class _MSAdapter extends GameSDK_default {
     return this.rewardedVideoInstance;
   }
   async loadBannerAdAsync(placementId) {
+    const { Array: A } = GameCore.Utils;
     const { BannerDisplayAdOptions } = GameCore.Configs.Ads;
-    const config = BannerDisplayAdOptions.find((config2) => config2.PlacementId === placementId);
+    const config = A.search(
+      BannerDisplayAdOptions,
+      (config2) => config2.PlacementId === placementId
+    );
     if (!config) {
       this.extra.exceptionInvalidOperation("Banner ad config not found.");
     }
@@ -1846,15 +1798,15 @@ var blockAccess = /* @__PURE__ */ __name((source) => {
     if (error.stack == null) {
       throw new Error();
     }
-    const stackLines = error.stack.split("\n");
+    const stackLines = error.stack.match(/\n/g) || [];
     const stackLineCount = stackLines.length;
     const callerLine = stackLineCount >= 4 ? stackLines[3] : stackLines[0];
     if (!callerLine) return source;
-    if (usedCallLocations.includes(callerLine)) {
+    if (usedCallLocations.indexOf(callerLine) > -1) {
       return source;
     }
     console.warn("Access:", callerLine);
-    if (["eval", "at <", "(<"].some((keyword) => callerLine.includes(keyword))) {
+    if (["eval", "at <", "(<"].some((keyword) => callerLine.indexOf(keyword) > -1)) {
       throw new Error();
     }
     usedCallLocations.push(callerLine);
@@ -1922,7 +1874,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "21", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "25", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
@@ -1994,6 +1946,7 @@ var initGoogleAnalytics = /* @__PURE__ */ __name((tagIds, buildVer, userId) => {
       if (!gaId || gaId === "null") return;
       window.gtag("config", gaId, configs);
     });
+    window.gtag("set", "user_id", userId);
     window.gtag("set", "client_id", `100.${userId}`);
     window.gtag("set", "user_properties", userProperties);
     window.gtag("event", "ga_user_init", {
