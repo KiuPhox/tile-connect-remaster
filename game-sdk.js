@@ -1246,6 +1246,8 @@ var _GameSDK = class _GameSDK {
       this.extra.destroyLoadingElement();
       return;
     }
+    const playerIdInQuery = params["playerId"];
+    this.player.initPlayerInfo(playerIdInQuery);
     const contextIdInQuery = params["context_source_id"];
     const contextTypeInQuery = params["context_type"];
     this.context.initContextInfo(contextIdInQuery, contextTypeInQuery);
@@ -1597,7 +1599,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   async updateCurrentPlayerInfo(playerId) {
     const { Valid, Number: N } = GameCore.Utils;
     let currentId = this.getID();
-    if (!Valid.isString(currentId) || !Valid.isString(playerId)) {
+    if (!Valid.isString(currentId)) {
       currentId = `${N.random(1e5)}`;
     }
     this.currentPlayerInfo.playerId = currentId;
@@ -1880,7 +1882,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "32", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "33", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
