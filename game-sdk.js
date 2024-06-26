@@ -94,10 +94,10 @@ var _Context = class _Context {
     this.currentContextType = "THREAD";
   }
   initContextInfo(contextId, contextType) {
+    const { Number, Array: Array2 } = GameCore.Utils;
     this.contextIdsByCreate = {};
     this.playerIdsInContexts = {};
-    const list = Array.prototype.slice.call({ length: 10 });
-    this.contextIdsByChoose = list.map(() => GameCore.Utils.Number.random(10).toString());
+    this.contextIdsByChoose = Array2.fillWith(10, () => Number.random(10).toString());
     if (!contextId || !contextType) return;
     if (["SOLO", "THREAD", "POST", "GROUP"].indexOf(contextType) < 0) {
       console.warn(`Invalid context type: ${contextType}`);
@@ -210,9 +210,9 @@ var _Context = class _Context {
   }
   createPlayerIdsInContext(contextId, maxPlayers) {
     if (!this.playerIdsInContexts[contextId]) {
+      const { Array: Array2, Number } = GameCore.Utils;
       const rand = Math.floor(Math.random() * maxPlayers);
-      const list = Array.prototype.slice.call({ length: rand });
-      const playerIds = list.map(() => GameCore.Utils.Number.random(10).toString());
+      const playerIds = Array2.fillWith(rand, () => Number.random(10).toString());
       this.playerIdsInContexts[contextId] = playerIds;
     }
     return this.playerIdsInContexts[contextId];
@@ -1883,7 +1883,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "35", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "37", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
