@@ -33,7 +33,7 @@
         <meta name="browsermode" content="application">
         <meta name="x5-page-mode" content="app">
 
-        <link rel="preconnect" href="https://fbig-singleplay-apps-dev.sunstudio.io" />
+        <link rel="preconnect" href="https://fbig-singleplay-apps.citigo.site" />
 
         <link rel="preload" href="./game-sdk.js" as="script" importance="high" />
 <link rel="prefetch" href="./assets/start-scene/index.js" as="script" importance="high" />
@@ -94,14 +94,14 @@
     }
     
     gtag('js', new Date())
-    gtag('set', 'app_version', '37')
+    gtag('set', 'app_version', '38')
 
     var tagIds = 'null'.split(' ')
     if (tagIds.length > 0) {
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
             gtag('config', tagId, {
-                build_version: '37',
+                build_version: '38',
                 send_page_view: false
             })
         })
