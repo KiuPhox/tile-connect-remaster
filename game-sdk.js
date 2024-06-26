@@ -678,6 +678,9 @@ var _Player = class _Player {
     if (typeof MockConnectedPlayers !== "function") return;
     this.connectedPlayers = new MockConnectedPlayers(this.extra);
   }
+  isGuest() {
+    return true;
+  }
 };
 __name(_Player, "Player");
 var Player = _Player;
@@ -1565,6 +1568,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     super(adapter);
     __publicField(this, "_personalInfo");
     __publicField(this, "signature", "");
+    __publicField(this, "mode", "guest");
     __publicField(this, "isLoginEnabled", false);
     this.updateLoginEnabledConfig();
   }
@@ -1603,6 +1607,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     const { playerId, signature, playerDisplayName } = user;
     this.currentPlayerInfo.playerId = playerId;
     this.currentPlayerInfo.playerName = playerDisplayName;
+    this.mode = "logged";
     this.signature = `${playerId} ${signature}`;
     this._personalInfo = {
       id: playerId,
@@ -1690,6 +1695,9 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   }
   getConnectedPlayersAsync() {
     this.adapter.extra.exceptionUnsupported();
+  }
+  isGuest() {
+    return this.mode === "guest";
   }
 };
 __name(_MSPlayer, "MSPlayer");
@@ -1872,7 +1880,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "27", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "28", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
