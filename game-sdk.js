@@ -1598,7 +1598,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   }
   async updateCurrentPlayerInfo(playerId) {
     const { Valid, Number: N } = GameCore.Utils;
-    let currentId = this.getID();
+    let currentId = this.isGuest() ? this.getID() : playerId;
     if (!Valid.isString(currentId)) {
       currentId = `${N.random(1e5)}`;
     }
@@ -1882,7 +1882,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "33", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "34", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
