@@ -94,14 +94,14 @@
     }
     
     gtag('js', new Date())
-    gtag('set', 'app_version', '28')
+    gtag('set', 'app_version', '30')
 
     var tagIds = 'null'.split(' ')
     if (tagIds.length > 0) {
         gtag('set', 'send_to', tagIds)
         tagIds.forEach(function(tagId) {
             gtag('config', tagId, {
-                build_version: '28',
+                build_version: '30',
                 send_page_view: false
             })
         })
