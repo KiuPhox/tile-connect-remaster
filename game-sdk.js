@@ -1479,7 +1479,7 @@ var _MSExtra = class _MSExtra extends Extra_default {
     try {
       if (!this.shareImageBase64) {
         const { loadImage } = GameCore.Utils.Image;
-        const img = await loadImage("./assets/images/others/share.jpg");
+        const img = await loadImage("./public/others/share.jpg");
         if (img) {
           this.shareImageBase64 = img.src;
         }
@@ -1597,10 +1597,10 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     }
   }
   async updateCurrentPlayerInfo(playerId) {
-    if (playerId) return;
-    const { Valid, Number: N } = GameCore.Utils;
+    const { Valid: V, Number: N } = GameCore.Utils;
+    if (V.isString(playerId)) return;
     let currentId = this.getID();
-    if (!Valid.isString(currentId)) {
+    if (!V.isString(currentId)) {
       currentId = `${N.random(1e5)}`;
     }
     this.currentPlayerInfo.playerId = currentId;
@@ -1883,7 +1883,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "40", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "41", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
