@@ -678,6 +678,9 @@ var _Player = class _Player {
     if (typeof MockConnectedPlayers !== "function") return;
     this.connectedPlayers = new MockConnectedPlayers(this.extra);
   }
+  isGuest() {
+    return true;
+  }
 };
 __name(_Player, "Player");
 var Player = _Player;
@@ -1567,6 +1570,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     super(adapter);
     __publicField(this, "_personalInfo");
     __publicField(this, "signature", "");
+    __publicField(this, "mode", "guest");
     __publicField(this, "isLoginEnabled", false);
     this.updateLoginEnabledConfig();
   }
@@ -1593,9 +1597,10 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     }
   }
   async updateCurrentPlayerInfo(playerId) {
-    const { Valid, Number: N } = GameCore.Utils;
+    const { Valid: V, Number: N } = GameCore.Utils;
+    if (V.isString(playerId)) return;
     let currentId = this.getID();
-    if (!Valid.isString(currentId) || !Valid.isString(playerId)) {
+    if (!V.isString(currentId)) {
       currentId = `${N.random(1e5)}`;
     }
     this.currentPlayerInfo.playerId = currentId;
@@ -1605,6 +1610,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     const { playerId, signature, playerDisplayName } = user;
     this.currentPlayerInfo.playerId = playerId;
     this.currentPlayerInfo.playerName = playerDisplayName;
+    this.mode = "logged";
     this.signature = `${playerId} ${signature}`;
     this._personalInfo = {
       id: playerId,
@@ -1642,7 +1648,7 @@ var _MSPlayer = class _MSPlayer extends Player_default {
     }
   }
   async getRandomName() {
-    return GameCore.Utils.String.generateNameAsync();
+    return GameCore.Utils.String.generateName();
   }
   async tryGettingSignedInPlayer() {
     let user = null;
@@ -1692,6 +1698,9 @@ var _MSPlayer = class _MSPlayer extends Player_default {
   }
   getConnectedPlayersAsync() {
     this.adapter.extra.exceptionUnsupported();
+  }
+  isGuest() {
+    return this.mode === "guest";
   }
 };
 __name(_MSPlayer, "MSPlayer");
@@ -1874,7 +1883,7 @@ security_default(window, "GameSDK");
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // <define:__INIT_CONFIG__>
-var define_INIT_CONFIG_default = { BUILD_VERSION: "43", TAGS_TO_CONFIG: ["null"] };
+var define_INIT_CONFIG_default = { BUILD_VERSION: "44", TAGS_TO_CONFIG: ["null"] };
 
 // libs/init-game-sdk.js
 var initConfig = define_INIT_CONFIG_default;
