@@ -1,1 +1,20 @@
-System.register("chunks:///resources.js",[],function(){return{execute:function(){}}});(function(e){e("virtual:///prerequisite-imports/resources","chunks:///resources.js")})(function(e,r){System.register(e,[r],function(e,r){return{setters:[function(r){var t={};for(var u in r)if("default"!==u&&"__esModule"!==u)t[u]=r[u];e(t)}],execute:function(){}}})});
+System.register("chunks:///resources.js",[],(function(){return{execute:function(){}}}));
+
+(function(r) {
+  r('virtual:///prerequisite-imports/resources', 'chunks:///resources.js'); 
+})(function(mid, cid) {
+    System.register(mid, [cid], function (_export, _context) {
+    return {
+        setters: [function(_m) {
+            var _exportObj = {};
+
+            for (var _key in _m) {
+              if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _m[_key];
+            }
+      
+            _export(_exportObj);
+        }],
+        execute: function () { }
+    };
+    });
+});

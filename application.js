@@ -1,1 +1,61 @@
-function _instanceof(t,e){if(null!=e&&"undefined"!=typeof Symbol&&e[Symbol.hasInstance])return!!e[Symbol.hasInstance](t);return t instanceof e}function _type_of(t){return t&&"undefined"!=typeof Symbol&&t.constructor===Symbol?"symbol":typeof t}System.register([],function(t,e){"use strict";var n;function _typeof(t){return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},_typeof(t)}function _classCallCheck(t,e){if(!_instanceof(t,e))throw new TypeError("Cannot call a class as a function")}function _defineProperties(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||false;o.configurable=true;if("value"in o)o.writable=true;Object.defineProperty(t,_toPropertyKey(o.key),o)}}function _createClass(t,e,n){if(e)_defineProperties(t.prototype,e);if(n)_defineProperties(t,n);Object.defineProperty(t,"prototype",{writable:false});return t}function _toPropertyKey(t){var e=_toPrimitive(t,"string");return(void 0===e?"undefined":_type_of(e))==="symbol"?e:String(e)}function _toPrimitive(t,e){if("object"!==_typeof(t)||null===t)return t;var n=t[Symbol.toPrimitive];if(void 0!==n){var o=n.call(t,e||"default");if("object"!==_typeof(o))return o;throw new TypeError("@@toPrimitive must return a primitive value.")}return("string"===e?String:Number)(t)}return{setters:[],execute:function(){t("Application",/*#__PURE__*/function(){function Application(){_classCallCheck(this,Application);this.settingsPath="src/settings.json";this.showFPS=false}_createClass(Application,[{key:"init",value:function(t){n=t;n.game.onPostBaseInitDelegate.add(this.onPostInitBase.bind(this));n.game.onPostSubsystemInitDelegate.add(this.onPostSystemInit.bind(this))}},{key:"onPostInitBase",value:function(){}},{key:"onPostSystemInit",value:function(){}},{key:"start",value:function(){return n.game.init({debugMode:n.DebugMode.ERROR,settingsPath:this.settingsPath,overrideSettings:{profiling:{showFPS:this.showFPS}}}).then(function(){return n.game.run()})}}]);return Application}())}}});
+System.register([], function (_export, _context) {
+  "use strict";
+
+  var cc, Application;
+  function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+  function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  return {
+    setters: [],
+    execute: function () {
+      _export("Application", Application = /*#__PURE__*/function () {
+        function Application() {
+          _classCallCheck(this, Application);
+          this.settingsPath = 'src/settings.json';
+          this.showFPS = false;
+        }
+        _createClass(Application, [{
+          key: "init",
+          value: function init(engine) {
+            cc = engine;
+            cc.game.onPostBaseInitDelegate.add(this.onPostInitBase.bind(this));
+            cc.game.onPostSubsystemInitDelegate.add(this.onPostSystemInit.bind(this));
+          }
+        }, {
+          key: "onPostInitBase",
+          value: function onPostInitBase() {
+            // cc.settings.overrideSettings('assets', 'server', '');
+            // do custom logic
+          }
+        }, {
+          key: "onPostSystemInit",
+          value: function onPostSystemInit() {
+            // do custom logic
+          }
+        }, {
+          key: "start",
+          value: function start() {
+            return cc.game.init({
+              debugMode: false ? cc.DebugMode.INFO : cc.DebugMode.ERROR,
+              settingsPath: this.settingsPath,
+              overrideSettings: {
+                // assets: {
+                //      preloadBundles: [{ bundle: 'main', version: 'xxx' }],
+                // }
+                profiling: {
+                  showFPS: this.showFPS
+                }
+              }
+            }).then(function () {
+              return cc.game.run();
+            });
+          }
+        }]);
+        return Application;
+      }());
+    }
+  };
+});
